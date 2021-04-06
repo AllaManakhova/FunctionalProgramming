@@ -204,6 +204,7 @@ def generate_statistics(files, output_path_general):
     results = pool.starmap(generate_statistic, zip(files))
     pool.close()
     pool.join()
+
     write_result(results, files, output_path_general)
 
 
@@ -234,10 +235,10 @@ def write_result(results, files, output_path_general):
     table_general.to_csv(output_path_general, header=True, index=True)
 
 
+
+
 # (вычисление) генерация общей статистики для отдельного файла
 def generate_statistic(file):
-    global count, complete
-
     feature_dict = get_feature_dict()
 
     splited_text, sentences, words = text_preparing(file)
@@ -260,10 +261,16 @@ def generate_statistic(file):
     # определение средней длины слов
     feature_dict["average_word_length"] = averenge_word_lenght(words)
 
-    complete += 1
-    print(complete, ' / ', count)
+    text_handled_count()
 
     return feature_dict
+
+
+# (действие) вывод кол-ва обработанных текстов
+def text_handled_count():
+    global count, complete
+    complete += 1
+    print(complete, ' / ', count)
 
 
 # (вычисление) подготовка текста
@@ -306,7 +313,8 @@ def averenge_lenght_of_sentence_by_words(sentences):
     for sentence in sentences:
         sentence_blob = TextBlob(str(sentence))
         general_count += len(sentence_blob.words)
-    return general_count / len(sentences)
+    general_count /= len(sentences)
+    return general_count
 
 
 # (вычисление) определение средней длины слов
