@@ -192,24 +192,20 @@ count = 0
 complete = 0
 
 
-# (действие) входная точка в утилиту
+# (действие) входная точка в утилиту. Итерируем список файлов и результат статистики пишем в качестве строки в файл
 def generate_statistics(files, output_path_general):
     global count
     count = len(files)
-
-    open(output_path_general, 'w').close()
-
-    # (действие) Итерируем список файлов и результат статистики пишем в качестве строки в файл
     pool = ThreadPool(5)
     results = pool.starmap(generate_statistic, zip(files))
     pool.close()
     pool.join()
+    file_result = make_file_result(results)
+    write_result(file_result, files, output_path_general)
 
-    write_result(results, files, output_path_general)
 
-
-# (действие) аписываем результат в csv-таблицу
-def write_result(results, files, output_path_general):
+# (действие) преобразуем список словарей в список списков
+def make_file_result(results):
     file_result = []
 
     for result in results:
@@ -222,7 +218,11 @@ def write_result(results, files, output_path_general):
             print(e)
             print(traceback.format_exc())
 
-    # задаём формат csv-файла для статистики по общим характеристикам
+    return file_result
+
+
+# (действие) записываем результат в csv-таблицу
+def write_result(file_result, files, output_path_general):
     table_general = pd.DataFrame(file_result, index=files,
                                  columns=["number_of_alphabets",
                                           "number_of_characters",
@@ -233,8 +233,6 @@ def write_result(results, files, output_path_general):
                                           "average_word_length"
                                           ])
     table_general.to_csv(output_path_general, header=True, index=True)
-
-
 
 
 # (вычисление) генерация общей статистики для отдельного файла
@@ -327,9 +325,8 @@ def get_feature_dict():
     return {
         "number_of_characters": 0,
         "number_of_alphabets": 0,
-        "number_of_alphabets_az": 0,
         "number_of_words": 0,
-        "number_og_sentence": 0,
+        "number_of_sentence": 0,
         "average_word_length": 0,
         "average_sentence_length_by_character": 0,
         "average_sentence_length_by_word": 0
