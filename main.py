@@ -204,7 +204,7 @@ def generate_statistics(files, output_path_general):
     write_result(file_result, files, output_path_general)
 
 
-# (действие) преобразуем список словарей в список списков
+# (вычисление) преобразуем список словарей в список списков
 def make_file_result(results):
     file_result = []
 
