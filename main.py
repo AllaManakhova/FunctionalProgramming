@@ -65,13 +65,10 @@ def generate_statistic(file):
     sentences, words = get_sentences_words(text)
 
     # определение кол-ва слов в тексте
-    feature_dict["number_of_words"], feature_dict["number_of_sentence"] = get_count_sentences_words(sentences, words)
+    feature_dict["number_of_words"], feature_dict["number_of_sentence"] = get_number_sentences_words(words, sentences, )
 
     # определение количества символов (буквы, цифры, пробелы, знаки пунктуации, БЕЗ переноса строки!) и отдельно количества букв
     feature_dict["number_of_characters"], feature_dict["number_of_alphabets"] = character_alphabet_count(text)
-
-    # определение кол-ва предложений в тексте
-    feature_dict["number_of_sentence"] = len(sentences)
 
     # определение средней длины предложения (посимвольно)
     feature_dict["average_sentence_length_by_character"] = averenge_lenght_of_sentence_by_character(sentences)
@@ -99,12 +96,13 @@ def get_sentences_words(text):
     blob = TextBlob(text)
     sentences = blob.sentences
     words = blob.words
+
     return sentences, words
 
 
 # (вычисление) получение количества предложений и слов
-def get_count_sentences_words(sentences, words):
-    return len(sentences), len(words)
+def get_number_sentences_words(words, sentences):
+    return len(words), len(sentences)
 
 
 # (действие) получение текста из файла
@@ -159,4 +157,3 @@ files1 = [
 output_path_general = "D:/Projects/FunctionalProgramming/output_path_general.csv"
 
 generate_statistics(files1, output_path_general)
-
