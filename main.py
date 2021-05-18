@@ -60,13 +60,15 @@ def write_result(file_result, files, output_path_general):
 def generate_statistic(file):
     feature_dict = dict()
 
-    splited_text, sentences, words = text_preparing(file)
+    text = get_text_file(file)
+
+    sentences, words = get_sentences_words(text)
 
     # определение кол-ва слов в тексте
-    feature_dict["number_of_words"] = len(words)
+    feature_dict["number_of_words"], feature_dict["number_of_sentence"] = get_count_sentences_words(sentences, words)
 
     # определение количества символов (буквы, цифры, пробелы, знаки пунктуации, БЕЗ переноса строки!) и отдельно количества букв
-    feature_dict["number_of_characters"], feature_dict["number_of_alphabets"] = character_alphabet_count(splited_text)
+    feature_dict["number_of_characters"], feature_dict["number_of_alphabets"] = character_alphabet_count(text)
 
     # определение кол-ва предложений в тексте
     feature_dict["number_of_sentence"] = len(sentences)
@@ -92,14 +94,17 @@ def text_handled_count():
     print(complete, ' / ', count)
 
 
-# (действие) подготовка текста
-def text_preparing(file):
-    text = get_text_file(file)
-    splited_text = text.split("\n")
+# (вычисление) получение предложений и слов
+def get_sentences_words(text):
     blob = TextBlob(text)
     sentences = blob.sentences
     words = blob.words
-    return splited_text, sentences, words
+    return sentences, words
+
+
+# (вычисление) получение количества предложений и слов
+def get_count_sentences_words(sentences, words):
+    return len(sentences), len(words)
 
 
 # (действие) получение текста из файла
@@ -115,9 +120,10 @@ def character_alphabet_count(splited_text):
     number_of_alphabets = 0
     for elem in splited_text:
         for character in elem:
-            number_of_characters += 1
-            if character.isalpha():
-                number_of_alphabets += 1
+            if character != "\n":
+                number_of_characters += 1
+                if character.isalpha():
+                    number_of_alphabets += 1
     return number_of_characters, number_of_alphabets
 
 
@@ -153,3 +159,4 @@ files1 = [
 output_path_general = "D:/Projects/FunctionalProgramming/output_path_general.csv"
 
 generate_statistics(files1, output_path_general)
+
