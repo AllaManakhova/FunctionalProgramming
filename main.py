@@ -92,7 +92,7 @@ def text_handled_count():
     print(complete, ' / ', count)
 
 
-# (вычисление) подготовка текста
+# (действие) подготовка текста
 def text_preparing(file):
     text = get_text_file(file)
     splited_text = text.split("\n")
