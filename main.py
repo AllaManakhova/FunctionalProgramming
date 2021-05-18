@@ -35,15 +35,10 @@ def make_file_result(results):
     file_result = []
 
     for result in results:
-        try:
-            result_list = []
-            for f in ordered_features:
-                result_list.append(str(result[f]))
-            file_result.append(result_list)
-        except Exception as e:
-            print(e)
-            print(traceback.format_exc())
-
+        result_list = []
+        for f in ordered_features:
+            result_list.append(str(result[f]))
+        file_result.append(result_list)
     return file_result
 
 
@@ -63,7 +58,7 @@ def write_result(file_result, files, output_path_general):
 
 # (действие) генерация общей статистики для отдельного файла
 def generate_statistic(file):
-    feature_dict = get_feature_dict()
+    feature_dict = dict()
 
     splited_text, sentences, words = text_preparing(file)
 
@@ -97,7 +92,7 @@ def text_handled_count():
     print(complete, ' / ', count)
 
 
-# (действие) подготовка текста
+# (вычисление) подготовка текста
 def text_preparing(file):
     text = get_text_file(file)
     splited_text = text.split("\n")
@@ -144,19 +139,6 @@ def averenge_lenght_of_sentence_by_words(sentences):
 # (вычисление) определение средней длины слов
 def averenge_word_lenght(words):
     return sum((map(lambda word: len(word), words))) / len(words)
-
-
-# (данные) возвращаем стандартный словарь с фичами, где ключ - название фичи, значение - их количество
-def get_feature_dict():
-    return {
-        "number_of_characters": 0,
-        "number_of_alphabets": 0,
-        "number_of_words": 0,
-        "number_of_sentence": 0,
-        "average_word_length": 0,
-        "average_sentence_length_by_character": 0,
-        "average_sentence_length_by_word": 0
-    }
 
 
 # данные (список обрабатываемых файлов)
