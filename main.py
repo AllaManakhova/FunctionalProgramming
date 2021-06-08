@@ -79,14 +79,11 @@ def generate_statistic(file):
     # определение количества количества букв
     feature_dict["number_of_alphabets"] = get_alphabet_count(text)
 
-    # определение средней длины предложения (посимвольно)
-    feature_dict["average_sentence_length_by_character"] = averenge_lenght_of_sentence_by_character(sentences)
+    feature_dict["average_sentence_length_by_character"] = averenge_lenght(lambda sentence: len(sentence), sentences)
 
-    # определение средней длины предложения (по словам)
-    feature_dict["average_sentence_length_by_word"] = averenge_lenght_of_sentence_by_words(sentences)
+    feature_dict["average_sentence_length_by_word"] = averenge_lenght(lambda sentence: len(sentence.words), sentences)
 
-    # определение средней длины слов
-    feature_dict["average_word_length"] = averenge_word_lenght(words)
+    feature_dict["average_word_length"] = averenge_lenght(lambda word: len(word), words)
 
     text_handled_count()
 
@@ -146,12 +143,17 @@ def averenge_word_lenght(words):
     return sum((map(lambda word: len(word), words))) / len(words)
 
 
+# (вычисление) определение средней длины
+def averenge_lenght(f, collection):
+    return sum((map(f, collection))) / len(collection)
+
+
 # данные (список обрабатываемых файлов)
 files1 = [
-    # "D:/Projects/FunctionalProgramming/Corpora/1846-Достоевский-Двойник-fragment.txt",
-    # "D:/Projects/FunctionalProgramming/Corpora/1846-Достоевский-Двойник-fragment_2.txt",
-    # "D:/Projects/FunctionalProgramming/Corpora/1846-Достоевский-Двойник-fragment_3.txt",
-    # "D:/Projects/FunctionalProgramming/Corpora/1846-Достоевский-Двойник-fragment_4.txt",
+    "D:/Projects/FunctionalProgramming/Corpora/1846-Достоевский-Двойник-fragment.txt",
+    "D:/Projects/FunctionalProgramming/Corpora/1846-Достоевский-Двойник-fragment_2.txt",
+    "D:/Projects/FunctionalProgramming/Corpora/1846-Достоевский-Двойник-fragment_3.txt",
+    "D:/Projects/FunctionalProgramming/Corpora/1846-Достоевский-Двойник-fragment_4.txt",
     "D:/Projects/FunctionalProgramming/Corpora/test.txt"
 ]
 
