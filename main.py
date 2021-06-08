@@ -48,7 +48,6 @@ def make_file_result(results):
     return file_result
 
 
-
 # (действие) записываем результат в csv-таблицу
 def write_result(file_result, files, output_path_general):
     table_general = pd.DataFrame(file_result, index=files,
@@ -68,6 +67,7 @@ def generate_statistic(file):
     feature_dict = dict()
 
     text = get_text_file(file)
+    print(text)
 
     sentences, words = get_sentences_words(text)
 
@@ -119,17 +119,14 @@ def get_text_file(file):
     return text
 
 
-# (вычисление) определение количества символов (буквы, цифры, пробелы, знаки пунктуации, БЕЗ переноса строки!) и отдельно количества букв
-def character_alphabet_count(splited_text):
-    number_of_characters = 0
-    number_of_alphabets = 0
-    for elem in splited_text:
-        for character in elem:
-            if character != "\n":
-                number_of_characters += 1
-                if character.isalpha():
-                    number_of_alphabets += 1
-    return number_of_characters, number_of_alphabets
+# (вычисление) определение количества букв
+def alphabet_count(text):
+    return len(list(filter(lambda x: x.isalpha(), text)))
+
+
+# (вычисление) определение количества символов (буквы, цифры, пробелы, знаки пунктуации, БЕЗ переноса строки!)
+def character_count(text):
+    return len(text)
 
 
 # (вычисление) определение средней длины предложения (посимвольно)
@@ -157,7 +154,8 @@ files1 = [
     "D:/Projects/FunctionalProgramming/Corpora/1846-Достоевский-Двойник-fragment.txt",
     "D:/Projects/FunctionalProgramming/Corpora/1846-Достоевский-Двойник-fragment_2.txt",
     "D:/Projects/FunctionalProgramming/Corpora/1846-Достоевский-Двойник-fragment_3.txt",
-    "D:/Projects/FunctionalProgramming/Corpora/1846-Достоевский-Двойник-fragment_4.txt"
+    "D:/Projects/FunctionalProgramming/Corpora/1846-Достоевский-Двойник-fragment_4.txt",
+    "D:/Projects/FunctionalProgramming/Corpora/test.txt"
 ]
 
 # данные (файл, куда будем записывать результат работы программы)
