@@ -128,21 +128,6 @@ def get_character_count(text):
     return len(text)
 
 
-# (вычисление) определение средней длины предложения (посимвольно)
-def averenge_lenght_of_sentence_by_character(sentences):
-    return sum((map(lambda sentence: len(sentence), sentences))) / len(sentences)
-
-
-# (вычисление) определение средней длины предложения (по словам)
-def averenge_lenght_of_sentence_by_words(sentences):
-    return sum((map(lambda sentence: len(sentence.words), sentences))) / len(sentences)
-
-
-# (вычисление) определение средней длины слов
-def averenge_word_lenght(words):
-    return sum((map(lambda word: len(word), words))) / len(words)
-
-
 # (вычисление) определение средней длины
 def averenge_lenght(f, collection):
     return sum((map(f, collection))) / len(collection)
