@@ -67,15 +67,17 @@ def generate_statistic(file):
     feature_dict = dict()
 
     text = get_text_file(file)
-    print(text)
 
     sentences, words = get_sentences_words(text)
 
     # определение кол-ва слов и предложений в тексте
     feature_dict["number_of_words"], feature_dict["number_of_sentence"] = get_number_sentences_words(words, sentences)
 
-    # определение количества символов (буквы, цифры, пробелы, знаки пунктуации, БЕЗ переноса строки!) и отдельно количества букв
-    feature_dict["number_of_characters"], feature_dict["number_of_alphabets"] = character_alphabet_count(text)
+    # определение количества символов (буквы, цифры, пробелы, знаки пунктуации, БЕЗ переноса строки!)
+    feature_dict["number_of_characters"] = get_character_count(text)
+
+    # определение количества количества букв
+    feature_dict["number_of_alphabets"] = get_alphabet_count(text)
 
     # определение средней длины предложения (посимвольно)
     feature_dict["average_sentence_length_by_character"] = averenge_lenght_of_sentence_by_character(sentences)
@@ -120,12 +122,12 @@ def get_text_file(file):
 
 
 # (вычисление) определение количества букв
-def alphabet_count(text):
+def get_alphabet_count(text):
     return len(list(filter(lambda x: x.isalpha(), text)))
 
 
 # (вычисление) определение количества символов (буквы, цифры, пробелы, знаки пунктуации, БЕЗ переноса строки!)
-def character_count(text):
+def get_character_count(text):
     return len(text)
 
 
@@ -136,12 +138,7 @@ def averenge_lenght_of_sentence_by_character(sentences):
 
 # (вычисление) определение средней длины предложения (по словам)
 def averenge_lenght_of_sentence_by_words(sentences):
-    general_count = 0
-    for sentence in sentences:
-        sentence_blob = TextBlob(str(sentence))
-        general_count += len(sentence_blob.words)
-    general_count /= len(sentences)
-    return general_count
+    return sum((map(lambda sentence: len(sentence.words), sentences))) / len(sentences)
 
 
 # (вычисление) определение средней длины слов
@@ -151,10 +148,10 @@ def averenge_word_lenght(words):
 
 # данные (список обрабатываемых файлов)
 files1 = [
-    "D:/Projects/FunctionalProgramming/Corpora/1846-Достоевский-Двойник-fragment.txt",
-    "D:/Projects/FunctionalProgramming/Corpora/1846-Достоевский-Двойник-fragment_2.txt",
-    "D:/Projects/FunctionalProgramming/Corpora/1846-Достоевский-Двойник-fragment_3.txt",
-    "D:/Projects/FunctionalProgramming/Corpora/1846-Достоевский-Двойник-fragment_4.txt",
+    # "D:/Projects/FunctionalProgramming/Corpora/1846-Достоевский-Двойник-fragment.txt",
+    # "D:/Projects/FunctionalProgramming/Corpora/1846-Достоевский-Двойник-fragment_2.txt",
+    # "D:/Projects/FunctionalProgramming/Corpora/1846-Достоевский-Двойник-fragment_3.txt",
+    # "D:/Projects/FunctionalProgramming/Corpora/1846-Достоевский-Двойник-fragment_4.txt",
     "D:/Projects/FunctionalProgramming/Corpora/test.txt"
 ]
 
